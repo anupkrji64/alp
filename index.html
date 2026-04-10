@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Only For You 💝</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  min-height:100vh;
+  background:#0d0010;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:'Poppins',sans-serif;
+  position:relative;
+}
+
+/* ── Aurora background ── */
+.aurora{
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 50%, #5c003680 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, #9b004060 0%, transparent 60%),
+    radial-gradient(ellipse 50% 70% at 50% 90%, #3d002880 0%, transparent 60%);
+  animation:aurora 10s ease-in-out infinite alternate;
+  z-index:0;
+}
+@keyframes aurora{
+  0%{filter:hue-rotate(0deg) brightness(1);}
+  50%{filter:hue-rotate(20deg) brightness(1.2);}
+  100%{filter:hue-rotate(-10deg) brightness(0.9);}
+}
+
+/* ── Stars background ── */
+#starfield{position:fixed;inset:0;z-index:1;pointer-events:none;}
+
+/* ── Floating particles canvas ── */
+#canvas{position:fixed;inset:0;z-index:2;pointer-events:none;}
+
+/* ── Orbs ── */
+.orb{
+  position:fixed;border-radius:50%;filter:blur(90px);
+  animation:orbFloat 12s ease-in-out infinite alternate;z-index:1;
+}
+.orb1{width:50vw;height:50vw;max-width:500px;max-height:500px;
+  background:radial-gradient(#ff1a7580,transparent 70%);
+  top:-10%;left:-10%;animation-delay:0s;}
+.orb2{width:40vw;height:40vw;max-width:400px;max-height:400px;
+  background:radial-gradient(#ff69b460,transparent 70%);
+  bottom:-10%;right:-10%;animation-delay:4s;}
+.orb3{width:30vw;height:30vw;max-width:300px;max-height:300px;
+  background:radial-gradient(#c2185b50,transparent 70%);
+  top:30%;left:55%;animation-delay:2s;}
+@keyframes orbFloat{
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(30px,20px) scale(1.2);}
+}
+
+/* ── SCREEN 1 ── */
+#gift-screen{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;align-items:center;
+  animation:entryBounce 1.1s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes entryBounce{
+  0%{opacity:0;transform:translateY(80px) scale(0.8);}
+  70%{transform:translateY(-10px) scale(1.02);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* Glowing animated border card */
+.card-wrap{
+  position:relative;
+  border-radius:36px;
+  padding:3px;
+  background:linear-gradient(var(--angle,0deg),#ff4d94,#ff85b3,#ffcce0,#c2185b,#ff4d94);
+  animation:rotateBorder 4s linear infinite;
+  box-shadow:0 0 40px #ff4d9440, 0 0 80px #ff1a7520;
+}
+@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+@keyframes rotateBorder{to{--angle:360deg;}}
+
+.card{
+  background:rgba(13,0,20,0.82);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  border-radius:34px;
+  padding:48px 36px 44px;
+  text-align:center;
+  width:88vw;max-width:400px;
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Inner shimmer sweep */
+.card::before{
+  content:'';position:absolute;
+  top:-100%;left:-60%;
+  width:40%;height:300%;
+  background:linear-gradient(105deg,transparent,rgba(255,150,200,0.08),transparent);
+  animation:cardShimmer 4s ease-in-out infinite;
+}
+@keyframes cardShimmer{
+  0%{left:-60%;}55%,100%{left:140%;}
+}
+
+.envelope{
+  font-size:64px;display:block;margin-bottom:6px;
+  animation:envelopePulse 2s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px #ff4d9470) drop-shadow(0 0 40px #ff1a7540);
+}
+@keyframes envelopePulse{
+  0%,100%{transform:scale(1) rotate(-2deg);}
+  50%{transform:scale(1.12) rotate(2deg);}
+}
+
+.card h1{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(26px,7vw,40px);
+  background:linear-gradient(135deg,#fff0f7,#ffb3d1,#ff4d94,#c2185b);
+  background-size:200% 200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 4s ease infinite;
+  margin-bottom:10px;line-height:1.2;
+}
+@keyframes gradShift{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+
+.card p{
+  font-size:clamp(13px,3.8vw,16px);
+  color:rgba(255,200,220,0.8);
+  margin-bottom:36px;letter-spacing:0.3px;
+}
+
+/* Typing cursor on subtitle */
+.card p span{
+  border-right:2px solid #ff85b3;
+  animation:blink 0.9s step-end infinite;
+  padding-right:2px;
+}
+@keyframes blink{0%,100%{border-color:#ff85b3;}50%{border-color:transparent;}}
+
+.yes-btn{
+  position:relative;
+  background:linear-gradient(135deg,#ff0055,#ff4d94,#ff85b3);
+  background-size:200% 200%;
+  animation:btnGrad 3s ease infinite;
+  border:none;
+  padding:17px 58px;
+  font-size:clamp(16px,4.5vw,20px);
+  font-family:'Poppins',sans-serif;font-weight:600;
+  border-radius:50px;color:white;cursor:pointer;
+  letter-spacing:1.5px;
+  box-shadow:0 0 25px #ff4d9480, 0 8px 30px rgba(0,0,0,0.3);
+  transition:transform 0.18s, box-shadow 0.18s;
+  overflow:hidden;
+}
+@keyframes btnGrad{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
+.yes-btn::after{
+  content:'';position:absolute;inset:0;
+  border-radius:50px;
+  box-shadow:0 0 0 0 rgba(255,77,148,0.7);
+  animation:btnPulse 2s ease-out infinite;
+}
+@keyframes btnPulse{
+  0%{box-shadow:0 0 0 0 rgba(255,77,148,0.7);}
+  70%{box-shadow:0 0 0 16px rgba(255,77,148,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,77,148,0);}
+}
+.yes-btn:hover{transform:scale(1.08) translateY(-3px);box-shadow:0 0 40px #ff4d94aa,0 14px 40px rgba(0,0,0,0.3);}
+.yes-btn:active{transform:scale(0.95);}
+
+/* ── Transition overlay ── */
+#overlay{
+  position:fixed;inset:0;
+  background:radial-gradient(circle,#ff4d94,#1a0010);
+  z-index:50;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.35s;
+}
+#overlay.show{opacity:1;pointer-events:all;}
+
+/* ── SCREEN 2 ── */
+#song-screen{
+  display:none;position:relative;z-index:10;
+  width:90vw;max-width:460px;
+  animation:entryBounce 0.9s cubic-bezier(.34,1.56,.64,1);
+}
+
+.song-wrap{
+  position:relative;border-radius:36px;padding:3px;
+  background:linear-gradient(var(--angle,0deg),#ff4d94,#ff85b3,#ffcce0,#c2185b,#ff4d94);
+  animation:rotateBorder 4s linear infinite;
+  box-shadow:0 0 50px #ff4d9450, 0 0 100px #ff1a7520;
+}
+
+.song-card{
+  background:rgba(13,0,20,0.88);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-radius:34px;
+  padding:36px 24px 44px;
+  text-align:center;color:white;
+  overflow:hidden;position:relative;
+}
+
+/* Spinning spotlight */
+.spotlight{
+  position:absolute;
+  width:200%;height:200%;
+  top:-50%;left:-50%;
+  background:conic-gradient(from 0deg,transparent 340deg,rgba(255,105,180,0.06) 350deg,transparent 360deg);
+  animation:spinLight 8s linear infinite;
+  pointer-events:none;
+}
+@keyframes spinLight{to{transform:rotate(360deg);}}
+
+/* Ripple rings */
+.ring{
+  position:absolute;border-radius:50%;
+  border:1.5px solid rgba(255,105,180,0.2);
+  top:50%;left:50%;
+  animation:ringPulse 3.5s ease-out infinite;
+  pointer-events:none;
+}
+.ring:nth-child(3){animation-delay:1.1s;}
+.ring:nth-child(4){animation-delay:2.2s;}
+@keyframes ringPulse{
+  0%{width:40px;height:40px;opacity:0.9;transform:translate(-50%,-50%);}
+  100%{width:600px;height:600px;opacity:0;transform:translate(-50%,-50%);}
+}
+
+.song-title{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(22px,6.5vw,36px);
+  background:linear-gradient(135deg,#fff0f7,#ffb3d1,#ff4d94);
+  background-size:200% 200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:gradShift 4s ease infinite;
+  margin-bottom:4px;position:relative;z-index:2;
+}
+
+.song-subtitle{
+  font-size:12px;color:rgba(255,180,210,0.6);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:16px;position:relative;z-index:2;
+}
+
+/* Music visualizer */
+.viz{
+  display:flex;justify-content:center;align-items:flex-end;
+  gap:4px;height:36px;margin:0 auto 24px;
+  position:relative;z-index:2;
+}
+.vbar{
+  border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,#ff85b3,#ff4d94,#c2185b);
+  box-shadow:0 0 10px #ff4d9460;
+  animation:vwave 0.8s ease-in-out infinite alternate;
+  transform-origin:bottom;
+}
+.vbar:nth-child(1){width:4px;height:10px;animation-delay:0s;}
+.vbar:nth-child(2){width:4px;height:20px;animation-delay:0.1s;}
+.vbar:nth-child(3){width:4px;height:32px;animation-delay:0.2s;}
+.vbar:nth-child(4){width:4px;height:26px;animation-delay:0.3s;}
+.vbar:nth-child(5){width:4px;height:36px;animation-delay:0.4s;}
+.vbar:nth-child(6){width:4px;height:22px;animation-delay:0.5s;}
+.vbar:nth-child(7){width:4px;height:30px;animation-delay:0.6s;}
+.vbar:nth-child(8){width:4px;height:18px;animation-delay:0.7s;}
+.vbar:nth-child(9){width:4px;height:28px;animation-delay:0.55s;}
+.vbar:nth-child(10){width:4px;height:14px;animation-delay:0.35s;}
+@keyframes vwave{
+  from{transform:scaleY(0.25);}
+  to{transform:scaleY(1);}
+}
+
+/* Lyrics area */
+.lyrics-wrap{
+  min-height:120px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:3;
+  padding:0 8px;
+}
+
+#lyrics{
+  font-size:clamp(16px,4.8vw,23px);
+  font-weight:600;line-height:1.75;
+  color:#fff;
+  text-shadow:
+    0 0 20px rgba(255,105,180,0.9),
+    0 0 60px rgba(255,77,148,0.5),
+    0 2px 8px rgba(0,0,0,0.5);
+}
+.lyric-in{animation:lyricEntry 0.6s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes lyricEntry{
+  0%{opacity:0;transform:translateY(30px) scale(0.9);}
+  60%{opacity:1;transform:translateY(-6px) scale(1.04);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* Sparkle burst on lyric change */
+.spark{
+  position:fixed;pointer-events:none;z-index:999;
+  font-size:18px;
+  animation:sparkFly 0.9s ease-out forwards;
+}
+@keyframes sparkFly{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(0);}
+}
+
+/* Progress bar */
+.progress-wrap{
+  position:relative;z-index:2;
+  margin-top:24px;padding:0 8px;
+}
+.progress-track{
+  height:4px;background:rgba(255,255,255,0.12);border-radius:4px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#ff4d94,#ff85b3,#ffcce0);
+  border-radius:4px;
+  box-shadow:0 0 10px #ff4d9480;
+  transition:width 0.2s linear;
+}
+
+/* Section label */
+.section-label{
+  font-size:11px;color:rgba(255,180,210,0.5);
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-top:10px;
+  transition:opacity 0.4s;
+}
+
+/* ── Music gap animation ── */
+.gap-anim{
+  display:flex;gap:18px;align-items:center;justify-content:center;
+}
+.gap-anim span{
+  font-size:32px;
+  animation:gapBounce 1s ease-in-out infinite;
+  filter:drop-shadow(0 0 12px #ff4d9490);
+}
+.gap-anim span:nth-child(1){animation-delay:0s;}
+.gap-anim span:nth-child(2){animation-delay:0.33s;}
+.gap-anim span:nth-child(3){animation-delay:0.66s;}
+@keyframes gapBounce{
+  0%,100%{transform:translateY(0) scale(1);}
+  40%{transform:translateY(-18px) scale(1.25);}
+  60%{transform:translateY(-10px) scale(1.1);}
+}
+
+/* ── Hidden YT ── */
+#yt-player{position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0;}
+
+/* ── Confetti burst ── */
+.confetti{
+  position:fixed;pointer-events:none;z-index:200;
+  width:8px;height:8px;border-radius:2px;
+  animation:confettiFall 1.4s ease-out forwards;
+}
+@keyframes confettiFall{
+  0%{opacity:1;transform:translate(0,0) rotate(0deg) scale(1);}
+  100%{opacity:0;transform:translate(var(--cx),var(--cy)) rotate(var(--cr)) scale(0.5);}
+}
+
+/* ── Heart burst ── */
+.burst{
+  position:fixed;pointer-events:none;
+  font-size:26px;z-index:999;
+  animation:burstOut 1.1s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes burstOut{
+  0%{opacity:1;transform:translate(0,0) scale(1.2);}
+  100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(0.2);}
+}
+
+/* ── Musical notes float ── */
+.note{
+  position:fixed;font-size:22px;pointer-events:none;z-index:5;
+  animation:noteFloat 2.5s ease-out forwards;
+}
+@keyframes noteFloat{
+  0%{opacity:0.9;transform:translateY(0) rotate(-10deg) scale(1);}
+  100%{opacity:0;transform:translateY(-120px) rotate(15deg) scale(0.6);}
+}
+</style>
+</head>
+<body>
+
+<div class="aurora"></div>
+<canvas id="starfield"></canvas>
+<canvas id="canvas"></canvas>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div id="overlay"></div>
+
+<!-- SCREEN 1 -->
+<div id="gift-screen">
+  <div class="card-wrap">
+    <div class="card">
+      <span class="envelope">💌</span>
+      <h1>Do You Want a Gift?</h1>
+      <p>Something magical, just for you <span></span></p>
+      <button class="yes-btn" onclick="startSong(event)">YES &nbsp;💖</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div id="song-screen">
+  <div class="song-wrap">
+    <div class="song-card">
+      <div class="spotlight"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="song-title">Only For You 💝</div>
+      <div class="song-subtitle">♪ Playing for you ♪</div>
+      <div class="viz">
+        <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+        <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+        <div class="vbar"></div><div class="vbar"></div><div class="vbar"></div>
+        <div class="vbar"></div>
+      </div>
+      <div class="lyrics-wrap"><div id="lyrics">💗</div></div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+        <div class="section-label" id="sec-label">♪</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="yt-player"></div>
+
+<script>
+/* ══ STARFIELD ══ */
+const sf = document.getElementById('starfield');
+const sctx = sf.getContext('2d');
+sf.width = window.innerWidth; sf.height = window.innerHeight;
+const stars = Array.from({length:120},()=>({
+  x:Math.random()*sf.width, y:Math.random()*sf.height,
+  r:Math.random()*1.5+0.3,
+  alpha:Math.random(), speed:0.003+Math.random()*0.01
+}));
+function drawStars(){
+  sctx.clearRect(0,0,sf.width,sf.height);
+  stars.forEach(s=>{
+    s.alpha += s.speed; if(s.alpha>1){s.alpha=0;}
+    sctx.beginPath();
+    sctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    sctx.fillStyle=`rgba(255,200,220,${Math.abs(Math.sin(s.alpha*Math.PI))})`;
+    sctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* ══ FLOATING PARTICLES ══ */
+const cv = document.getElementById('canvas');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize',()=>{
+  sf.width=cv.width=window.innerWidth;
+  sf.height=cv.height=window.innerHeight;
+});
+const emojis=['💖','💕','💗','💞','❤️','💓','✨','🌸','💫'];
+const parts = Array.from({length:35},()=>mkPart());
+function mkPart(){ return {
+  x:Math.random()*cv.width, y:cv.height+Math.random()*cv.height,
+  emoji:emojis[Math.floor(Math.random()*emojis.length)],
+  size:14+Math.random()*18, speed:0.4+Math.random()*1.1,
+  drift:(Math.random()-0.5)*0.7, opacity:0.35+Math.random()*0.5,
+  rot:Math.random()*Math.PI*2, rotS:(Math.random()-0.5)*0.025
+};}
+function drawParts(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{
+    ctx.save();ctx.globalAlpha=p.opacity;
+    ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+    ctx.font=p.size+'px serif';ctx.textAlign='center';
+    ctx.fillText(p.emoji,0,0);ctx.restore();
+    p.y-=p.speed; p.x+=p.drift; p.rot+=p.rotS;
+    if(p.y<-50){Object.assign(p,mkPart());p.y=cv.height+50;}
+  });
+  requestAnimationFrame(drawParts);
+}
+drawParts();
+
+/* ══ TYPEWRITER on subtitle ══ */
+const subtitleSpan = document.querySelector('.card p span');
+const phrase = '💕';
+let ti=0;
+setInterval(()=>{
+  subtitleSpan.textContent = phrase.slice(0,ti%2===0?1:0);
+  ti++;
+},900);
+
+/* ══ LYRICS DATA ══ */
+const SONG_START = 31;
+const timedLyrics = [
+  {text:"हमरा से पहले ना, हमरा से केहु बात 💖", time:0,   section:"Chorus"},
+  {text:"लव यू, लव यू कही 💕",                  time:4,   section:"Chorus"},
+  {text:"हमरा से पहले ना, हमरा से केहु बाद 💗", time:7,   section:"Chorus"},
+  {text:"लव यू, लव यू कही हो 💞",               time:11,  section:"Chorus"},
+  {text:"लव यू, लव यू कही ❤️",                  time:14,  section:"Chorus"},
+  {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही 😍", time:17, section:"Chorus"},
+  {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही ✨", time:22, section:"Chorus"},
+  {gap:true, time:27, section:"♪ Music ♪"},   // instrumental gap ~44s
+
+  {text:"शक सी बा, फिर नियत डोल जाई 💭",        time:70,  section:"Antara 1"},
+  {text:"लोक के लाग गईल, हमरो बा बीमारी प्रेम रोग के 🥺", time:75, section:"Antara 1"},
+  {text:"डे टू डे हाथ कर 🤝",                   time:81,  section:"Antara 1"},
+  {text:"ऑल टाइम फरियाद हो, कही बतिया सही 💬",  time:84,  section:"Antara 1"},
+  {text:"डे टू डे हाथ कर 🤝",                   time:90,  section:"Antara 1"},
+  {text:"ऑल टाइम फरियाद हो, कही बतिया सही 💬",  time:93,  section:"Antara 1"},
+  {text:"कही बतिया सही 💕",                      time:98,  section:"Antara 1"},
+  {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही 😍", time:101, section:"Antara 1"},
+  {gap:true, time:107, section:"♪ Music ♪"},  // instrumental gap ~30s
+
+  {text:"लुक बाटे आज जाबे, गजब के बा ब्यूटी 😍", time:137, section:"Antara 2"},
+  {text:"मन कर फरी, सर्विस कर तोहर ड्यूटी 💼",  time:142, section:"Antara 2"},
+  {text:"लुक बाटे आज जाबे, गजब के बा ब्यूटी ✨",time:148, section:"Antara 2"},
+  {text:"मन कर फरी, सर्विस कर तोहर ब्यूटी 💖",  time:153, section:"Antara 2"},
+  {text:"आरा के आरन बाजी बानी 🎶",               time:159, section:"Antara 2"},
+  {text:"इतना हा बतिया बए साही 💬",              time:162, section:"Antara 2"},
+  {text:"आरा के आरन बाजी बानी 🎵",               time:168, section:"Antara 2"},
+  {text:"इतना हा बतिया बए साही हो, बतिया बड़ा में सही 💕", time:172, section:"Antara 2"},
+  {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही 😍", time:177, section:"Antara 2"}
+];
+const TOTAL_DUR = 190;
+
+let player, lyricsInterval, lyricIndex=0;
+
+/* ══ LYRIC DISPLAY with sparkles ══ */
+function setLyric(i){
+  const entry = timedLyrics[i];
+  const box = document.getElementById('lyrics');
+  document.getElementById('sec-label').textContent = '♪ ' + entry.section + ' ♪';
+
+  if(entry.gap){
+    // Show music pulse animation, hide text
+    box.classList.remove('lyric-in');
+    box.innerHTML = '<div class="gap-anim"><span>🎵</span><span>💗</span><span>🎶</span></div>';
+    return;
+  }
+
+  box.classList.remove('lyric-in');
+  void box.offsetWidth;
+  box.textContent = entry.text;
+  box.classList.add('lyric-in');
+  spawnLyricSparks();
+  spawnNote();
+}
+
+function spawnLyricSparks(){
+  const box = document.getElementById('lyrics');
+  const r = box.getBoundingClientRect();
+  const cx = r.left + r.width/2, cy = r.top + r.height/2;
+  ['✨','💫','⭐','🌟','💕'].forEach(em=>{
+    const el=document.createElement('div');
+    el.className='spark'; el.textContent=em;
+    const a=Math.random()*Math.PI*2, d=40+Math.random()*80;
+    el.style.setProperty('--sx',Math.cos(a)*d+'px');
+    el.style.setProperty('--sy',Math.sin(a)*d+'px');
+    el.style.left=cx+'px'; el.style.top=cy+'px';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),950);
+  });
+}
+
+function spawnNote(){
+  const notes=['🎵','🎶','🎼','♪','♫'];
+  const el=document.createElement('div');
+  el.className='note'; el.textContent=notes[Math.floor(Math.random()*notes.length)];
+  el.style.left=20+Math.random()*60+'vw';
+  el.style.bottom='15%';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2600);
+}
+
+/* ══ PROGRESS BAR ══ */
+function updateProgress(){
+  if(!player || typeof player.getCurrentTime!=='function') return;
+  const t = player.getCurrentTime() - SONG_START;
+  const pct = Math.min(100, (t/TOTAL_DUR)*100);
+  document.getElementById('prog').style.width = pct+'%';
+}
+
+function startLyrics(){
+  clearInterval(lyricsInterval);
+  lyricIndex=0;
+  lyricsInterval=setInterval(()=>{
+    if(!player||typeof player.getCurrentTime!=='function') return;
+    const t=player.getCurrentTime()-SONG_START;
+    updateProgress();
+    if(lyricIndex<timedLyrics.length && t>=timedLyrics[lyricIndex].time){
+      setLyric(lyricIndex); lyricIndex++;
+    }
+  },150);
+}
+
+/* ══ CONFETTI BURST ══ */
+function confettiBurst(cx,cy){
+  const colors=['#ff4d94','#ff85b3','#ffcce0','#ff1a75','#fff','#ffb3d1','#c2185b'];
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');
+    el.className='confetti';
+    el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.left=cx+'px'; el.style.top=cy+'px';
+    const a=Math.random()*Math.PI*2, d=100+Math.random()*200;
+    el.style.setProperty('--cx',Math.cos(a)*d+'px');
+    el.style.setProperty('--cy',Math.sin(a)*d-80+'px');
+    el.style.setProperty('--cr',(Math.random()*720-360)+'deg');
+    el.style.animationDuration=(0.8+Math.random()*0.7)+'s';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1600);
+  }
+}
+
+function heartBurst(cx,cy){
+  ['💖','💕','💗','💞','❤️','💓','💘','💝'].forEach(em=>{
+    const el=document.createElement('div');
+    el.className='burst'; el.textContent=em;
+    const a=Math.random()*Math.PI*2, d=70+Math.random()*140;
+    el.style.setProperty('--bx',Math.cos(a)*d+'px');
+    el.style.setProperty('--by',Math.sin(a)*d-80+'px');
+    el.style.left=cx+'px'; el.style.top=cy+'px';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1200);
+  });
+}
+
+/* ══ YES BUTTON ══ */
+function startSong(e){
+  const cx=e.clientX||window.innerWidth/2;
+  const cy=e.clientY||window.innerHeight/2;
+  confettiBurst(cx,cy);
+  heartBurst(cx,cy);
+
+  // flash overlay transition
+  const ov=document.getElementById('overlay');
+  ov.classList.add('show');
+  setTimeout(()=>{
+    document.getElementById('gift-screen').style.display='none';
+    document.getElementById('song-screen').style.display='block';
+    ov.classList.remove('show');
+  },380);
+
+  if(player&&player.playVideo){
+    player.seekTo(SONG_START,true);
+    player.playVideo();
+    setTimeout(startLyrics,450);
+  } else {
+    window._playPending=true;
+  }
+}
+
+/* ══ YOUTUBE API ══ */
+function onYouTubeIframeAPIReady(){
+  player=new YT.Player('yt-player',{
+    height:'1',width:'1',
+    videoId:'HYBuiZFZ9FU',
+    playerVars:{autoplay:0,controls:0,fs:0,rel:0,playsinline:1,start:SONG_START},
+    events:{
+      onReady(e){
+        if(window._playPending){
+          e.target.seekTo(SONG_START,true);
+          e.target.playVideo();
+          startLyrics();
+          window._playPending=false;
+        }
+      }
+    }
+  });
+}
+const tag=document.createElement('script');
+tag.src='https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+</script>
+</body>
+</html>
