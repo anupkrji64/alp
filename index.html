@@ -325,16 +325,33 @@ body{
   font-size:clamp(16px,4.8vw,23px);
   font-weight:600;line-height:1.75;
   color:#fff;
-  text-shadow:
-    0 0 20px rgba(255,105,180,0.9),
-    0 0 60px rgba(255,77,148,0.5),
-    0 2px 8px rgba(0,0,0,0.5);
 }
-.lyric-in{animation:lyricEntry 0.6s cubic-bezier(.34,1.56,.64,1) forwards;}
+
+/* Karaoke fill span — fills left→right over lyric duration */
+.k-line{
+  display:inline;
+  background:linear-gradient(90deg,
+    #fff 50%,
+    rgba(255,255,255,0.3) 50%
+  );
+  background-size:200% 100%;
+  background-position:100% 0;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:karaokeSwipe var(--kdur,4s) linear forwards;
+  filter:drop-shadow(0 0 12px rgba(255,105,180,0.8));
+}
+@keyframes karaokeSwipe{
+  from{background-position:100% 0;}
+  to  {background-position:  0% 0;}
+}
+
+.lyric-in{animation:lyricEntry 0.5s cubic-bezier(.34,1.56,.64,1) forwards;}
 @keyframes lyricEntry{
-  0%{opacity:0;transform:translateY(30px) scale(0.9);}
-  60%{opacity:1;transform:translateY(-6px) scale(1.04);}
-  100%{opacity:1;transform:translateY(0) scale(1);}
+  0%  {opacity:0;transform:translateY(28px) scale(0.92);}
+  65% {opacity:1;transform:translateY(-5px) scale(1.04);}
+  100%{opacity:1;transform:translateY(0)    scale(1);}
 }
 
 /* Sparkle burst on lyric change */
@@ -565,7 +582,7 @@ const timedLyrics = [
   {text:"लव यू, लव यू कही ❤️",                  time:14,  section:"Chorus"},
   {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही 😍", time:17, section:"Chorus"},
   {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही ✨", time:22, section:"Chorus"},
-  {gap:true, time:27, section:"♪ Music ♪"},   // instrumental gap ~44s
+  {gap:true, time:46, section:"♪ Music ♪"},   // chorus ends at 1:17 = 46s rel
 
   {text:"शक सी बा, फिर नियत डोल जाई 💭",        time:70,  section:"Antara 1"},
   {text:"लोक के लाग गईल, हमरो बा बीमारी प्रेम रोग के 🥺", time:75, section:"Antara 1"},
@@ -575,7 +592,7 @@ const timedLyrics = [
   {text:"ऑल टाइम फरियाद हो, कही बतिया सही 💬",  time:93,  section:"Antara 1"},
   {text:"कही बतिया सही 💕",                      time:98,  section:"Antara 1"},
   {text:"हमके बना लs बॉडीगार्ड, ब्यूटी बनल रही 😍", time:101, section:"Antara 1"},
-  {gap:true, time:107, section:"♪ Music ♪"},  // instrumental gap ~30s
+  {gap:true, time:115, section:"♪ Music ♪"},  // antara1 ends at 2:26 = 115s rel
 
   {text:"लुक बाटे आज जाबे, गजब के बा ब्यूटी 😍", time:137, section:"Antara 2"},
   {text:"मन कर फरी, सर्विस कर तोहर ड्यूटी 💼",  time:142, section:"Antara 2"},
@@ -591,22 +608,28 @@ const TOTAL_DUR = 190;
 
 let player, lyricsInterval, lyricIndex=0;
 
-/* ══ LYRIC DISPLAY with sparkles ══ */
+/* ══ LYRIC DISPLAY with karaoke + sparkles ══ */
 function setLyric(i){
   const entry = timedLyrics[i];
   const box = document.getElementById('lyrics');
   document.getElementById('sec-label').textContent = '♪ ' + entry.section + ' ♪';
 
   if(entry.gap){
-    // Show music pulse animation, hide text
     box.classList.remove('lyric-in');
     box.innerHTML = '<div class="gap-anim"><span>🎵</span><span>💗</span><span>🎶</span></div>';
     return;
   }
 
+  // Duration = time until next non-gap lyric (or 5s fallback)
+  let dur = 5;
+  for(let j = i+1; j < timedLyrics.length; j++){
+    if(!timedLyrics[j].gap){ dur = timedLyrics[j].time - entry.time; break; }
+  }
+  dur = Math.max(2, Math.min(dur, 12)); // clamp 2s–12s
+
   box.classList.remove('lyric-in');
   void box.offsetWidth;
-  box.textContent = entry.text;
+  box.innerHTML = `<span class="k-line" style="--kdur:${dur}s">${entry.text}</span>`;
   box.classList.add('lyric-in');
   spawnLyricSparks();
   spawnNote();
